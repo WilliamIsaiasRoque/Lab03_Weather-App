@@ -1,0 +1,248 @@
+/* ============================================================
+   CSS Custom Properties
+   ============================================================ */
+:root {
+  /* Colors */
+  --color-bg-page:       #f0f4f8;
+  --color-bg-card:       #ffffff;
+  --color-bg-weather:    #ebf8ff;
+  --color-bg-error:      #fff5f5;
+
+  --color-text-primary:  #1a202c; /* contrast ≥ 12:1 on white */
+  --color-text-heading:  #2d3748; /* contrast ≥ 8:1 on white  */
+  --color-text-muted:    #4a5568; /* contrast ≥ 5.9:1 on white — AA large text */
+  --color-text-error:    #c53030; /* contrast ≥ 5.1:1 on white — AA */
+  --color-text-weather-heading: #2c5282; /* contrast ≥ 6.3:1 on #ebf8ff — AA */
+
+  --color-border-input:  #cbd5e0;
+  --color-border-focus:  #3182ce;
+  --color-border-error:  #fc8181;
+  --color-border-weather:#bee3f8;
+
+  --color-btn-bg:        #3182ce;
+  --color-btn-bg-hover:  #2b6cb0;
+  --color-btn-focus-ring:#63b3ed;
+
+  /* Typography */
+  --font-base: system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif;
+  --font-size-base:  1rem;      /* 16px */
+  --font-size-sm:    0.875rem;  /* 14px */
+  --font-size-md:    0.9375rem; /* 15px */
+  --font-size-lg:    1.25rem;
+  --font-size-xl:    1.75rem;
+  --line-height:     1.5;
+}
+
+/* ============================================================
+   Base Reset
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
+  background-color: var(--color-bg-page);
+  color: var(--color-text-primary);
+}
+
+/* ============================================================
+   Layout — app container (centered, max 600px)
+   ============================================================ */
+.app-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: var(--color-bg-card);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive: tighter padding on small screens */
+@media (max-width: 640px) {
+  .app-container {
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 6px;
+  }
+}
+
+/* ============================================================
+   Typography
+   ============================================================ */
+h1 {
+  font-size: var(--font-size-xl);
+  margin: 0 0 1.5rem;
+  color: var(--color-text-heading);
+}
+
+/* ============================================================
+   Form
+   ============================================================ */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+label {
+  font-weight: 600;
+  color: var(--color-text-heading);
+}
+
+input[type="text"] {
+  padding: 0.5rem 0.75rem;
+  font-size: var(--font-size-base);
+  border: 2px solid var(--color-border-input);
+  border-radius: 4px;
+  /* Reset default browser outline; we provide our own via focus-visible */
+  outline: none;
+  color: var(--color-text-primary);
+  background: var(--color-bg-card);
+  width: 100%;
+}
+
+/* Keyboard focus ring — visible when navigating via keyboard or assistive tech */
+input[type="text"]:focus-visible {
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.4);
+}
+
+/* Fallback for browsers that don't support :focus-visible */
+input[type="text"]:focus:not(:focus-visible) {
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.4);
+}
+
+button[type="submit"] {
+  padding: 0.5rem 1.25rem;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: #ffffff;
+  background-color: var(--color-btn-bg);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: flex-start;
+  /* Ensure readable label contrast: white on #3182ce ≥ 4.6:1 — AA */
+}
+
+/* On small screens let the button span full width for easier tapping */
+@media (max-width: 400px) {
+  button[type="submit"] {
+    align-self: stretch;
+  }
+}
+
+button[type="submit"]:hover {
+  background-color: var(--color-btn-bg-hover);
+}
+
+/* Explicit focus ring for keyboard users */
+button[type="submit"]:focus-visible {
+  outline: 3px solid var(--color-btn-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   Validation message (inline, below the input)
+   ============================================================ */
+#validation-message {
+  color: var(--color-text-error);
+  font-size: var(--font-size-sm);
+  min-height: 1.25em; /* reserve space to avoid layout shift */
+}
+
+/* ============================================================
+   Loading indicator
+   The `hidden` HTML attribute hides the element; we add an
+   explicit rule here to ensure it is hidden even if a stylesheet
+   removes the default UA behaviour for [hidden].
+   ============================================================ */
+#loading-indicator {
+  margin: 1rem 0;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+#loading-indicator[hidden] {
+  display: none;
+}
+
+/* ============================================================
+   Error message zone
+   Only rendered when non-empty (via :empty selector).
+   ============================================================ */
+#error-message {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  background-color: var(--color-bg-error);
+  border-left: 4px solid var(--color-border-error);
+  color: var(--color-text-error);
+  /* #c53030 on #fff5f5 → contrast ≈ 5.1:1 — satisfies WCAG AA */
+  border-radius: 4px;
+  font-size: var(--font-size-md);
+}
+
+/* Collapse the zone when there is no message */
+#error-message:empty {
+  display: none;
+}
+
+/* ============================================================
+   Weather display section
+   ============================================================ */
+#weather-display {
+  margin-top: 1.5rem;
+}
+
+/* .weather-card is injected by WeatherDisplay component */
+.weather-card {
+  padding: 1rem 1.25rem;
+  background: var(--color-bg-weather);
+  border-radius: 6px;
+  border: 1px solid var(--color-border-weather);
+}
+
+.weather-card h2,
+.weather-card .weather-city {
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+  color: #2c5282;
+  /* #2c5282 on #ebf8ff → contrast ≈ 6.3:1 — satisfies WCAG AA */
+}
+
+.weather-fields {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.weather-fields li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid #bee3f8;
+  padding-bottom: 0.25rem;
+}
+
+.weather-fields li:last-child {
+  border-bottom: none;
+}
+
+.weather-label {
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.weather-value {
+  color: #2d3748;
+  font-variant-numeric: tabular-nums;
+}

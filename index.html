@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pronóstico del Clima</title>
+    <link rel="stylesheet" href="src/styles.css" />
+  </head>
+  <body>
+    <main class="app-container">
+      <h1>Pronóstico del Clima</h1>
+
+      <!-- Search form (CitySearchForm component) -->
+      <section aria-label="Búsqueda de ciudad">
+        <form id="city-search-form" novalidate>
+          <label for="city-input">Nombre de la ciudad</label>
+          <input
+            type="text"
+            id="city-input"
+            name="city"
+            maxlength="100"
+            autocomplete="off"
+            placeholder="Ej: Buenos Aires"
+            aria-describedby="validation-message"
+          />
+          <button type="submit">Buscar</button>
+          <span id="validation-message" role="alert" aria-live="polite"></span>
+        </form>
+      </section>
+
+      <!-- Loading indicator (LoadingIndicator component) -->
+      <div id="loading-indicator" aria-live="polite" aria-busy="false" hidden>
+        <span>Cargando…</span>
+      </div>
+
+      <!-- Error messages (ErrorMessage component) -->
+      <div id="error-message" role="alert" aria-live="assertive"></div>
+
+      <!-- Weather display (WeatherDisplay component) -->
+      <section id="weather-display" aria-label="Resultados del clima"></section>
+    </main>
+
+    <script type="module" src="src/main.ts"></script>
+  </body>
+</html>
